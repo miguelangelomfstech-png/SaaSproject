@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RankLens API | AI-powered SEO Intelligence</title>
+    <meta name="description" content="A powerful REST API that combines real-time search volume data with Google Gemini AI to generate automated SEO strategies.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">RankLens<span>.</span></div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#pricing">Pricing</a>
+                <a href="https://ranklens-api-mfrw.onrender.com/docs" target="_blank" class="btn btn-secondary">Documentation</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title">
+                Stop guessing.<br>
+                <span class="gradient-text">Start ranking.</span>
+            </h1>
+            <p class="hero-subtitle">
+                The only REST API you need for SEO. Combine real-time search volume with 
+                Google Gemini AI to get instant content strategies in a single JSON payload.
+            </p>
+            <div class="hero-cta">
+                <a href="#pricing" class="btn btn-primary">Get API Key</a>
+                <a href="#demo" class="btn btn-secondary">View Documentation</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat"><span class="highlight">100%</span> Automated</div>
+                <div class="stat"><span class="highlight">1</span> Request</div>
+                <div class="stat"><span class="highlight">< 2s</span> Response Time</div>
+            </div>
+        </div>
+    </header>
+
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="demo-wrapper glass-card">
+                <div class="demo-text">
+                    <h2>Developer-First Experience</h2>
+                    <p>Integrate directly into your SaaS, AI blog generator, or internal dashboard. No scraping required.</p>
+                    <ul class="feature-list">
+                        <li>✔️ Accurate difficulty scores</li>
+                        <li>✔️ Search volume estimations</li>
+                        <li>✔️ Related keyword extraction</li>
+                        <li>✔️ AI-written strategic summaries</li>
+                    </ul>
+                </div>
+                <div class="demo-code">
+                    <div class="code-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="file-name">GET /api/v1/analyze?keyword=saas</span>
+                    </div>
+                    <pre><code class="language-json">{
+  "keyword": "saas",
+  "search_volume_estimate": "10K–100K/mo",
+  "difficulty_score": 40,
+  "ai_summary": "Excellent opportunity. Moderate difficulty but high search volume. Focus on long-tail keywords (e.g. 'saas ideas 2026') to gain initial traction.",
+  "related_keywords": [
+    "saas-fee",
+    "saas ideas",
+    "saas meaning"
+  ]
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Simple, transparent pricing</h2>
+                <p>Start small, scale when you need it. Cancel anytime.</p>
+            </div>
+            
+            <div class="pricing-grid">
+                <!-- Starter Plan -->
+                <div class="pricing-card glass-card">
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-price">$9<span>/mo</span></div>
+                    <ul class="plan-features">
+                        <li>100 requests / day</li>
+                        <li>Keyword Analysis</li>
+                        <li>AI Summaries</li>
+                        <li>Standard Support</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/7sYdR8dLE3vb5j9c5Pco000" target="_blank" class="btn btn-primary btn-full">Get Starter</a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card glass-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price">$29<span>/mo</span></div>
+                    <ul class="plan-features">
+                        <li>1,000 requests / day</li>
+                        <li>Competitor Gap Analysis</li>
+                        <li>AI Summaries</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/7sYdR8dLE3vb5j9c5Pco000" target="_blank" class="btn btn-primary btn-full">Get Pro</a>
+                </div>
+
+                <!-- Agency Plan -->
+                <div class="pricing-card glass-card">
+                    <div class="plan-name">Agency</div>
+                    <div class="plan-price">$79<span>/mo</span></div>
+                    <ul class="plan-features">
+                        <li>5,000 requests / day</li>
+                        <li>Bulk Analysis Endpoint</li>
+                        <li>Competitor Gap Analysis</li>
+                        <li>24/7 Slack Support</li>
+                    </ul>
+                    <a href="https://buy.stripe.com/7sYdR8dLE3vb5j9c5Pco000" target="_blank" class="btn btn-primary btn-full">Get Agency</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div>&copy; 2026 RankLens API. Built by Miguel.</div>
+            <div class="footer-links">
+                <a href="#">Terms</a>
+                <a href="#">Privacy</a>
+                <a href="mailto:miguel.angelo.mfstech@gmail.com">Contact</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
