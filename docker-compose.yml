@@ -1,0 +1,51 @@
+version: "3.9"
+
+# ===========================================================================
+# docker-compose.yml — RankLens API
+# ---------------------------------------------------------------------------
+# Usage:
+#   Local dev  :  docker compose up --build
+#   Production :  docker compose -f docker-compose.yml up -d
+# ===========================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # Main FastAPI application
+  # ---------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ranklens-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      # Persist the SQLite database between container restarts
+      - ranklens_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    depends_on:
+      - watchtower
+
+  # ---------------------------------------------------------------------------
+  # Watchtower — auto-pulls new Docker images when you push to your registry
+  # Optional: remove this service if you prefer manual deploys.
+  # ---------------------------------------------------------------------------
+  watchtower:
+    image: containrrr/watchtower
+    container_name: ranklens-watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 300 --cleanup ranklens-api
+    restart: unless-stopped
+
+volumes:
+  ranklens_data:
+    driver: local

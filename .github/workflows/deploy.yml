@@ -1,0 +1,87 @@
+# ===========================================================================
+# .github/workflows/deploy.yml
+# ---------------------------------------------------------------------------
+# Triggered on every push to `main`.
+# Pipeline:
+#   1. Run pytest smoke tests (in-memory SQLite, dummy Stripe creds)
+#   2. If tests pass → trigger Render.com deploy hook (zero-downtime deploy)
+#
+# Required GitHub Secrets (Settings → Secrets → Actions):
+#   RENDER_DEPLOY_HOOK_URL  — from Render dashboard → your service → Deploy Hook
+# ===========================================================================
+
+name: CI → Deploy to Render
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: Test
+  # ---------------------------------------------------------------------------
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🐍 Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 📦 Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: 🧪 Run pytest
+        run: pytest tests/ -v --tb=short
+        env:
+          # Use in-memory SQLite for CI — no external services needed
+          DATABASE_URL: "sqlite+aiosqlite:///./test_ci.db"
+          STRIPE_SECRET_KEY: "sk_test_ci_dummy"
+          STRIPE_WEBHOOK_SECRET: "whsec_ci_dummy"
+          ADMIN_SECRET: "ci-admin-secret"
+          GEMINI_API_KEY: ""
+          RESEND_API_KEY: ""
+          APP_BASE_URL: "http://localhost:8000"
+
+      - name: 🧹 Cleanup test DB
+        if: always()
+        run: rm -f test_ci.db
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Deploy (only on push to main, not on PRs)
+  # ---------------------------------------------------------------------------
+  deploy:
+    name: Deploy to Render
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 🚀 Trigger Render Deploy Hook
+        run: |
+          echo "Triggering Render deployment…"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}")
+          echo "Render response status: $STATUS"
+          if [ "$STATUS" != "200" ] && [ "$STATUS" != "201" ]; then
+            echo "❌ Deploy hook failed with status $STATUS"
+            exit 1
+          fi
+          echo "✅ Deploy triggered successfully"
+
+      - name: ⏳ Wait for deploy to start
+        run: sleep 10
+
+      - name: 🩺 Health check (optional — Render takes ~2min to build)
+        continue-on-error: true
+        run: |
+          echo "Render is building — full health check skipped in CI."
+          echo "Check deploy status at: https://dashboard.render.com"
